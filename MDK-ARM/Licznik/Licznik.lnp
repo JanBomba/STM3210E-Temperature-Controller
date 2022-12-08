@@ -1,0 +1,28 @@
+--cpu Cortex-M3
+"licznik\startup_stm32f103xe.o"
+"licznik\lcd.o"
+"licznik\main.o"
+"licznik\stm32f1xx_it.o"
+"licznik\stm32f1xx_hal_msp.o"
+"licznik\stm32f1xx_hal_gpio_ex.o"
+"licznik\stm32f1xx_hal_adc.o"
+"licznik\stm32f1xx_hal_adc_ex.o"
+"licznik\stm32f1xx_hal.o"
+"licznik\stm32f1xx_hal_rcc.o"
+"licznik\stm32f1xx_hal_rcc_ex.o"
+"licznik\stm32f1xx_hal_gpio.o"
+"licznik\stm32f1xx_hal_dma.o"
+"licznik\stm32f1xx_hal_cortex.o"
+"licznik\stm32f1xx_hal_pwr.o"
+"licznik\stm32f1xx_hal_flash.o"
+"licznik\stm32f1xx_hal_flash_ex.o"
+"licznik\stm32f1xx_hal_exti.o"
+"licznik\stm32f1xx_ll_fsmc.o"
+"licznik\stm32f1xx_hal_sram.o"
+"licznik\stm32f1xx_hal_tim.o"
+"licznik\stm32f1xx_hal_tim_ex.o"
+"licznik\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "Licznik\Licznik.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "Licznik.map" -o Licznik\Licznik.axf
