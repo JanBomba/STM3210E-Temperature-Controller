@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lcd.h"
-#include <stdio.h>
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -37,8 +37,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define Title1 "      REGULATOR     "
-#define Title2 "     TEMPERATURY    "
+#define Title1 "       SYSTEM       "
+#define Title2 "     OGRZEWANIA     "
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -50,8 +50,6 @@ TIM_HandleTypeDef htim7;
 SRAM_HandleTypeDef hsram3;
 
 /* USER CODE BEGIN PV */
-//uint8_t Title1[20] = "      REGULATOR     ";
-//uint8_t Title2[20] = "     TEMPERATURY    ";
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -66,22 +64,8 @@ static void MX_TIM6_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-volatile uint8_t JOY_UP=0, JOY_DOWN=0;
+volatile uint8_t JOY_UP=0, JOY_DOWN=0, JOY_SEL=0;
 volatile float temperatura_C;
-
-int stdout_putchar(int ch)
-{
-    return ch;
-}
-
-int fputc(int ch, FILE *f)
-{
-  //f = f ; // unused warning prevention
-  LCD_DrawChar((const unsigned short *)ch);
-  //glcd_WriteData(0);
-  return ch;
-}
-
 /* USER CODE END 0 */
 
 /**
@@ -125,60 +109,72 @@ int main(void)
 	HAL_TIM_Base_Start(&htim6);
 	
 	float licznik=20;
+	float histereza=5;
 	uint8_t temp_zad[20];
 	uint8_t temp_akt[20];
+	uint8_t histereza_disp[20];
+	uint8_t SEL;
+	
 	
 	STM3210E_LCD_Init();
 	LCD_Clear(Black);
   LCD_SetBackColor(Black);
 	LCD_SetTextColor(Green);
-	LCD_SetCursor(0, 0);
-	printf("test");
-	LCD_SetCursor(24, 0);
-	printf(Title2);
-//	LCD_DisplayStringLine(Line0, Title1);
-//	LCD_DisplayStringLine(Line1, Title2);
+	LCD_DisplayStringLine(Line0, Title1);
+	LCD_DisplayStringLine(Line1, Title2);
   LCD_SetBackColor(Black);                        // Set the Back Color */
   LCD_SetTextColor(Red);
-	snprintf(temp_zad, 20, "Temp. Zad. : %.1f*C   ", licznik);
-	//LCD_DisplayStringLine(Line3, temp_zad);
+	snprintf((char *)temp_zad, 20, "Temp. Zad. : %.1f*C   ", licznik);
+	LCD_DisplayStringLine(Line3, temp_zad);
+	snprintf((char *)histereza_disp, 20, "Histereza : %.1f*C   ", histereza);
+	LCD_DisplayStringLine(Line7, histereza_disp);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		if (JOY_SEL==2){
+				SEL++;
+				JOY_SEL=3;
+		}
 		if (JOY_UP==2) {
-			if(licznik<30) {
+			if(licznik<30 && SEL&1) {
 			licznik+=0.5;
-			//GPIOF->ODR=(licznik<<6);
-			snprintf(temp_zad, 20, "Temp. Zad. : %.1f*C   ", licznik);
-			//LCD_DisplayStringLine(Line3, temp_zad);
+			snprintf((char *)temp_zad, 20, "Temp. Zad. : %.1f*C   ", licznik);
+			LCD_DisplayStringLine(Line3, temp_zad);
+			}
+			if(!SEL&1)
+			{
+				histereza+=0.5;
+				snprintf((char *)histereza_disp, 20, "Histereza : %.1f*C   ", histereza);
+				LCD_DisplayStringLine(Line7, histereza_disp);
 			}
 			JOY_UP=3;
 		}
 		
 		if (JOY_DOWN==2) {
-			if(licznik>0){
+			if(licznik>0 && SEL&1){
 			licznik-=0.5;
-			//GPIOF->ODR=(licznik<<6);
-			snprintf(temp_zad, 20, "Temp. Zad. : %.1f*C   ", licznik);
-			//LCD_DisplayStringLine(Line3, temp_zad);
+			snprintf((char *)temp_zad, 20, "Temp. Zad. : %.1f*C   ", licznik);
+			LCD_DisplayStringLine(Line3, temp_zad);
+			}
+			if(histereza>=0 && !SEL&1)
+			{
+				histereza-=0.5;
+				snprintf((char *)histereza_disp, 20, "Histereza : %.1f*C   ", histereza);
+				LCD_DisplayStringLine(Line7, histereza_disp);
 			}
 			JOY_DOWN=3;
 		}
 
-			snprintf(temp_akt, 20, "Temp. Akt. : %.1f*C     ", temperatura_C);
-			//LCD_DisplayStringLine(Line5, temp_akt);
+			snprintf((char *)temp_akt, 20, "Temp. Akt. : %.1f*C     ", temperatura_C);
+			LCD_DisplayStringLine(Line5, temp_akt);
 			
-		if (temperatura_C<licznik) {
+		if (temperatura_C<licznik-histereza) 
 			GPIOF->ODR |= (1<<6);
-			GPIOC->ODR &= (0<<4);
-		}
-		else {
-			GPIOF->ODR &= (0<<6);
-			GPIOC->ODR |= (1<<4);
-		}
+		if (temperatura_C>licznik+histereza)
+			GPIOF->ODR &= ~(1<<6);
 		}
     /* USER CODE END WHILE */
 
@@ -200,11 +196,12 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI_DIV2;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -216,7 +213,7 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
@@ -369,36 +366,26 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LED_Relay_GPIO_Port, LED_Relay_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(Relay_GPIO_Port, Relay_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : LED_Pin */
-  GPIO_InitStruct.Pin = LED_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  /*Configure GPIO pin : LED_Relay_Pin */
+  GPIO_InitStruct.Pin = LED_Relay_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(LED_Relay_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : Relay_Pin */
-  GPIO_InitStruct.Pin = Relay_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  /*Configure GPIO pins : JOY_SEL_Pin JOY_UP_Pin */
+  GPIO_InitStruct.Pin = JOY_SEL_Pin|JOY_UP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(Relay_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
   /*Configure GPIO pin : JOY_DOWN_Pin */
   GPIO_InitStruct.Pin = JOY_DOWN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(JOY_DOWN_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : JOY_UP_Pin */
-  GPIO_InitStruct.Pin = JOY_UP_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(JOY_UP_GPIO_Port, &GPIO_InitStruct);
 
 }
 
@@ -435,12 +422,12 @@ static void MX_FSMC_Init(void)
   hsram3.Init.AsynchronousWait = FSMC_ASYNCHRONOUS_WAIT_DISABLE;
   hsram3.Init.WriteBurst = FSMC_WRITE_BURST_DISABLE;
   /* Timing */
-  Timing.AddressSetupTime = 0;
-  Timing.AddressHoldTime = 0;
-  Timing.DataSetupTime = 2;
-  Timing.BusTurnAroundDuration = 0;
-  Timing.CLKDivision = 0;
-  Timing.DataLatency = 0;
+  Timing.AddressSetupTime = 15;
+  Timing.AddressHoldTime = 15;
+  Timing.DataSetupTime = 255;
+  Timing.BusTurnAroundDuration = 15;
+  Timing.CLKDivision = 16;
+  Timing.DataLatency = 17;
   Timing.AccessMode = FSMC_ACCESS_MODE_A;
   /* ExtTiming */
 
