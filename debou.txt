@@ -1,3 +1,42 @@
+extern uint8_t znak;
+extern uint8_t symbol;
+extern uint8_t klawisz_0;
+extern uint8_t klawisz_1;
+extern uint8_t klawisz_2;
+extern uint8_t klawisz_3;
+extern uint8_t klawisz_4;
+extern uint8_t klawisz_5;
+extern uint8_t klawisz_6;
+extern uint8_t klawisz_7;
+extern uint8_t klawisz_8;
+extern uint8_t klawisz_9;
+extern uint8_t klawisz_G;
+extern uint8_t klawisz_K;
+extern uint8_t klawisz_A;
+extern uint8_t klawisz_B;
+extern uint8_t klawisz_C;
+extern uint8_t klawisz_D;
+
+volatile uint8_t znak=99;
+volatile uint8_t symbol=99;
+volatile uint8_t klawisz_0=0;
+volatile uint8_t klawisz_1=0;
+volatile uint8_t klawisz_2=0;
+volatile uint8_t klawisz_3=0;
+volatile uint8_t klawisz_4=0;
+volatile uint8_t klawisz_5=0;
+volatile uint8_t klawisz_6=0;
+volatile uint8_t klawisz_7=0;
+volatile uint8_t klawisz_8=0;
+volatile uint8_t klawisz_9=0;
+volatile uint8_t klawisz_A=0;
+volatile uint8_t klawisz_B=0;
+volatile uint8_t klawisz_C=0;
+volatile uint8_t klawisz_D=0;
+volatile uint8_t klawisz_K=0;
+volatile uint8_t klawisz_G=0;
+
+
 for(int i=1;i<5;i++)
 	{
 		switch (i)
