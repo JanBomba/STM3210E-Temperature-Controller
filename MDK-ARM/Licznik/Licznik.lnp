@@ -23,6 +23,6 @@
 "licznik\stm32f1xx_hal_tim_ex.o"
 "licznik\system_stm32f1xx.o"
 --strict --scatter "Licznik\Licznik.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "Licznik.map" -o Licznik\Licznik.axf

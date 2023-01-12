@@ -1,32 +1,33 @@
-licznik\system_stm32f1xx.o: ../Core/Src/system_stm32f1xx.c
-licznik\system_stm32f1xx.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
-licznik\system_stm32f1xx.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h
-licznik\system_stm32f1xx.o: ../Drivers/CMSIS/Include/core_cm3.h
-licznik\system_stm32f1xx.o: C:\Keil_arm_v5\ARM\ARMCC\Bin\..\include\stdint.h
-licznik\system_stm32f1xx.o: ../Drivers/CMSIS/Include/cmsis_version.h
-licznik\system_stm32f1xx.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
-licznik\system_stm32f1xx.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
-licznik\system_stm32f1xx.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
-licznik\system_stm32f1xx.o: ../Core/Inc/stm32f1xx_hal_conf.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
-licznik\system_stm32f1xx.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-licznik\system_stm32f1xx.o: C:\Keil_arm_v5\ARM\ARMCC\Bin\..\include\stddef.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_sram.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_fsmc.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
-licznik\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
+licznik/system_stm32f1xx.o: ..\Core\Src\system_stm32f1xx.c \
+  ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f1xx.h \
+  ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xe.h \
+  ..\Drivers\CMSIS\Include\core_cm3.h \
+  C:\Programy\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  ..\Drivers\CMSIS\Include\cmsis_version.h \
+  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
+  ..\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Programy\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
+  C:\Programy\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
+  ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h \
+  ..\Core\Inc\stm32f1xx_hal_conf.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_rcc.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_def.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
+  C:\Programy\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_rcc_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_gpio.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_gpio_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_exti.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_dma.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_dma_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_cortex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_adc.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_adc_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_flash.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_flash_ex.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_sram.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_ll_fsmc.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pwr.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
+  ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h
